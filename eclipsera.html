@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrolling Text Adventure</title>
+  <link rel="stylesheet" href="game_css.css">
+</head>
+<body>
+  <div id="startMenu" class="menu-overlay">
+    <h1>Welcome to Eclipsera</h1>
+    <p>Prepare for your journey.</p>
+    <button id="startGameButton">Start Game</button>
+    <button onclick="goToPage('about.html')">About</button>
+    <button onclick="goToPage('settings.html')">Settings</button>
+    <button onclick="goToPage('instructions.html')">Instructions</button>
+</div>
+
+
+<div id="gameContainer" class="hidden">
+    <!-- Your existing game code here -->
+</div>
+  <div id="game-container">
+    <div id="story">
+      <p id="text"></p>
+    </div>
+    <div id="choices"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
