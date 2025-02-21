@@ -1,27 +1,70 @@
-document.addEventListener("DOMContentLoaded", function() {
-    document.getElementById("startGameButton").addEventListener("click", function() {
-        document.getElementById("startMenu").classList.add("hidden");
-        document.getElementById("gameContainer").classList.remove("hidden");
+document.addEventListener("DOMContentLoaded", function () {
+  document.getElementById("startGameButton").addEventListener("click", function () {
+      document.getElementById("startMenu").classList.add("hidden");
+      document.getElementById("gameContainer").classList.remove("hidden");
 
-        // Get elements **AFTER** the menu is hidden
-        textElement = document.getElementById("text");
-        choicesElement = document.getElementById("choices");
+      // Get elements AFTER showing the game container
+      textElement = document.getElementById("text");
+      choicesElement = document.getElementById("choices");
 
-        // Start the game only when elements exist
-        if (textElement && choicesElement) {
-            startGame();
-        } else {
-            console.error("Error: Game elements not found.");
-        }
-    });
+      // Start the game only when elements exist
+      if (textElement && choicesElement) {
+          startGame();
+      } else {
+          console.error("Error: Game elements not found.");
+      }
+  });
 
-    document.getElementById("instructionsButton").addEventListener("click", function() {
-        document.getElementById("instructions").classList.toggle("hidden");
-    });
+  document.getElementById("instructionsButton").addEventListener("click", function () {
+      document.getElementById("instructions").classList.toggle("hidden");
+  });
 });
+
 // Declare variables globally
 let textElement;
 let choicesElement;
+
+// Function to Start Game (Runs After Button Click)
+function startGame() {
+  if (!textElement || !choicesElement) {
+      console.error("Error: Game elements not found.");
+      return;
+  }
+  showText(story.start);
+}
+
+// Show Story Text with Typing Effect
+function showText(storyNode) {
+  textElement.innerHTML = ""; // Clear text
+  let index = 0;
+
+  function typeWriter() {
+      if (index < storyNode.text.length) {
+          textElement.innerHTML += storyNode.text.charAt(index);
+          index++;
+          setTimeout(typeWriter, 30);
+      } else {
+          showChoices(storyNode.choices);
+      }
+  }
+  typeWriter();
+}
+
+// Show Choices as Buttons
+function showChoices(choices) {
+  choicesElement.innerHTML = ""; // Clear old choices
+  choices.forEach(choice => {
+      const button = document.createElement("button");
+      button.innerText = choice.text;
+      button.classList.add("choice-btn");
+      button.onclick = () => showText(story[choice.next]);
+      choicesElement.appendChild(button);
+  });
+}
+
+function goToPage(page) {
+  window.location.href = page;
+}
 // Game Story Data
 const story = {
   start: {
@@ -131,7 +174,7 @@ text: "Inside the shrine, the symbols react to your presence. " +
 },
   anubis_explanation:{
     text: "I am Anubis, protector of the dead, its golden eyes piercing through the darkness." +
-     "You have fallen ill to a unknown diesease an must walk the path between worlds. The land of Eclipsera is your trial, a liminal space between life and death." +
+     "You have fallen ill to a unknown disease an must walk the path between worlds. The land of Eclipsera is your trial, a liminal space between life and death." +
       "If you wish to return to the mortal realm, you must journey through its depths and overcome the forces that seek to keep you here." +
        "But beware, Anubis warns, his voice growing heavier with meaning. Your journey is not merely for yourself. The ones you cherish, those who linger in your thoughts—darkness threatens them too. If you falter, they may be lost and never allowed to rest in eternal peace." +
         " Nothing but evil and terror lurk beyond the veil. You have the option to try and tame my power or leave to find another gods ability to help you.",
@@ -143,41 +186,5 @@ text: "Inside the shrine, the symbols react to your presence. " +
   temple: {
     text: "Inside the temple, a great door stands before you. Do you enter?",
     choices: []
-  },
-// Function to Start Game (Runs After Button Click)
-function startGame:() {
-    if (!textElement || !choicesElement) {
-        console.error("Error: Game elements not found.");
-        return;
-    }
-    showText(story.start);
-// Show Story Text with Typing Effect
-function showText(storyNode) {
-    textElement.innerHTML = ""; // Clear text
-    let index = 0;
-    function typeWriter() {
-        if (index < storyNode.text.length) {
-            textElement.innerHTML += storyNode.text.charAt(index);
-            index++;
-            setTimeout(typeWriter, 30);
-        } else {
-            showChoices(storyNode.choices);
-        }
-    }
-    typeWriter();
-}
-
-// Show Choices as Buttons
-function showChoices(choices) {
-    choicesElement.innerHTML = ""; // Clear old choices
-    choices.forEach(choice => {
-        const button = document.createElement("button");
-        button.innerText = choice.text;
-        button.classList.add("choice-btn");
-        button.onclick = () => showText(story[choice.next]);
-        choicesElement.appendChild(button);
-    });
-}
-function goToPage(page) {
-    window.location.href = page;
-}
+  }
+};
