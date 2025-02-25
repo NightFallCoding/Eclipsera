@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM fully loaded and parsed");
+  // Attach the Start Game button event
   document.getElementById("startGameButton").addEventListener("click", function () {
+      // Hide the start menu and show the game container (using the same container)
       document.getElementById("startMenu").classList.add("hidden");
-      document.getElementById("gameContainer").classList.remove("hidden");
+      document.getElementById("game-container").classList.remove("hidden");
 
       // Get elements AFTER showing the game container
       textElement = document.getElementById("text");
@@ -15,9 +18,13 @@ document.addEventListener("DOMContentLoaded", function () {
       }
   });
 
-  document.getElementById("instructionsButton").addEventListener("click", function () {
-      document.getElementById("instructions").classList.toggle("hidden");
-  });
+  // Attach the exit button event listener directly
+  document.getElementById("exit-btn").addEventListener("click", exitGame);
+
+  // If you have an instructionsButton, make sure it exists or remove the event listener
+  // document.getElementById("instructionsButton").addEventListener("click", function () {
+  //     document.getElementById("instructions").classList.toggle("hidden");
+  // });
 });
 
 // Declare variables globally
@@ -62,6 +69,15 @@ function showChoices(choices) {
   });
 }
 
+// Exit Game Functionality
+function exitGame() {
+  // Hide the game container and show the start menu
+  document.getElementById("game-container").classList.add("hidden");
+  document.getElementById("startMenu").classList.remove("hidden");
+  console.log("Game exited");
+}
+
+// Navigation function (if needed)
 function goToPage(page) {
   window.location.href = page;
 }
